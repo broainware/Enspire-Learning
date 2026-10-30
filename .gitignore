@@ -1,0 +1,17 @@
+/vendor
+/node_modules
+/public/build
+/public/hot
+/storage/*.key
+/storage/app/private/**
+/storage/app/public/**
+/storage/framework/cache/data/*
+/storage/framework/sessions/*
+/storage/framework/views/*
+/storage/logs/*
+/bootstrap/cache/*.php
+.env
+.env.*.local
+.phpunit.cache
+.DS_Store
+Thumbs.db
