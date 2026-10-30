@@ -15,14 +15,11 @@
 
 <section class="panel profile-panel">
 
-    {{-- INFORMASI PROFIL --}}
     <div class="profile-hero">
+
         <div class="profile-avatar">
             @if($user->photo_path)
-                <img
-                    src="{{ asset('storage/'.$user->photo_path) }}"
-                    alt="Foto profil"
-                >
+                <img src="{{ asset('storage/'.$user->photo_path) }}" alt="Foto profil">
             @else
                 {{ strtoupper(substr($user->name, 0, 1)) }}
             @endif
@@ -33,9 +30,9 @@
             <p>{{ $user->email }}</p>
             <span class="status-pill status-completed">Pengajar</span>
         </div>
+
     </div>
 
-    {{-- FORM EDIT PROFIL --}}
     <form
         method="POST"
         action="{{ route('teacher.profile.update') }}"
@@ -45,9 +42,10 @@
         @csrf
         @method('PUT')
 
-        {{-- NAMA LENGKAP --}}
+        {{-- NAMA --}}
         <div class="field-group">
             <label>Nama Lengkap <b>*</b></label>
+
             <input
                 class="form-control"
                 type="text"
@@ -57,25 +55,28 @@
             >
         </div>
 
-        {{-- EMAIL TIDAK DAPAT DIUBAH --}}
+        {{-- EMAIL READONLY --}}
         <div class="field-group">
             <label>Email</label>
+
             <input
                 class="form-control"
                 type="email"
                 value="{{ $user->email }}"
                 readonly
                 aria-readonly="true"
-                style="background: #f8f5f2; color: #a18a7e; cursor: not-allowed;"
+                style="background:#f8f5f2;color:#a18a7e;cursor:not-allowed;"
             >
+
             <small class="form-help">
                 Email merupakan identitas akun dan tidak dapat diubah melalui profil.
             </small>
         </div>
 
-        {{-- NOMOR TELEPON --}}
+        {{-- TELEPON --}}
         <div class="field-group">
             <label>Nomor Telepon</label>
+
             <input
                 class="form-control"
                 type="text"
@@ -85,37 +86,42 @@
             >
         </div>
 
-        {{-- FOTO PROFIL --}}
+        {{-- FOTO --}}
         <div class="field-group">
             <label>Foto Profil</label>
+
             <input
                 class="form-control file-control"
                 type="file"
                 name="photo"
                 accept="image/jpeg,image/png,image/webp"
             >
+
             <small class="form-help">
                 JPG/PNG/WEBP, maksimal 2 MB.
             </small>
         </div>
 
-        {{-- ROLE AKUN --}}
+        {{-- ROLE --}}
         <div class="field-group field-span-2">
             <label>Role Akun</label>
+
             <input
                 class="form-control readonly-control"
                 value="Pengajar"
                 disabled
             >
+
             <small class="form-help">
                 Role ditentukan dari database dan tidak dapat diubah melalui profil.
             </small>
         </div>
 
-        {{-- TOMBOL SIMPAN --}}
+        {{-- SIMPAN --}}
         <div class="field-span-2 form-actions">
             <button class="btn btn-primary" type="submit">
-                Simpan Perubahan →
+                Simpan Perubahan
+                <x-icon name="arrow-right" size="16" class="button-trailing-icon" />
             </button>
         </div>
 

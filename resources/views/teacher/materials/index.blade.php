@@ -1,14 +1,162 @@
+
 @extends('layouts.app')
+
 @section('title', 'Kelola Materi')
+
 @section('content')
-<div class="page-heading"><div><p class="eyebrow">PUSAT PEMBELAJARAN</p><h1>Kelola Materi</h1><p>Atur, kategorikan, dan kelola materi pembelajaran agar terstruktur serta mudah diakses siswa.</p></div><a class="btn btn-primary" href="{{ route('teacher.materials.create') }}">＋ Tambah Materi</a></div>
+
+<div class="page-heading">
+    <div>
+        <p class="eyebrow">PUSAT PEMBELAJARAN</p>
+        <h1>Kelola Materi</h1>
+        <p>Atur, kategorikan, dan kelola materi pembelajaran agar terstruktur serta mudah diakses siswa.</p>
+    </div>
+
+    <a class="btn btn-primary" href="{{ route('teacher.materials.create') }}">
+        <x-icon name="plus" size="16" class="button-icon" />
+        Tambah Materi
+    </a>
+</div>
+
 <section class="panel">
-    <form method="GET" class="filter-bar"><input class="form-control search-control" type="search" name="q" value="{{ request('q') }}" placeholder="Cari nama materi, topik, atau kata kunci..."><select class="form-control" name="subject_id"><option value="">Semua Mata Pelajaran</option>@foreach($subjects as $subject)<option value="{{ $subject->id }}" @selected(request('subject_id') == $subject->id)>{{ $subject->name }}</option>@endforeach</select><select class="form-control" name="status"><option value="">Semua Status</option><option value="published" @selected(request('status')==='published')>Dipublikasikan</option><option value="draft" @selected(request('status')==='draft')>Draft</option></select><button class="btn btn-secondary" type="submit">Filter</button></form>
-    <div class="panel-heading table-title"><div><h2>Daftar Materi</h2><p>{{ $materials->total() }} materi terdaftar · Pengajar dapat mengelola semua mata pelajaran</p></div></div>
-    <div class="table-wrap"><table class="data-table"><thead><tr><th>Nama Materi</th><th>Mata Pelajaran</th><th>Jenjang/Kelas</th><th>Kategori</th><th>Dibuat Oleh</th><th>Status</th><th>Aksi</th></tr></thead><tbody>
-    @forelse($materials as $material)<tr><td><div class="table-primary">{{ $material->title }}</div><small class="muted-text">{{ $material->files->count() }} lampiran · {{ $material->created_at->format('d M Y') }}</small></td><td>{{ $material->subject?->name }}</td><td>{{ $material->education_level ?: '–' }}</td><td>{{ $material->category ?: 'Materi Pembelajaran' }}</td><td>{{ $material->createdBy?->name }}</td><td><span class="status-pill {{ $material->status==='published'?'status-completed':'status-scheduled' }}">{{ $material->status==='published'?'Dipublikasikan':'Draft' }}</span></td><td><div class="table-actions"><a class="icon-action" title="Edit" href="{{ route('teacher.materials.edit',$material) }}">✎</a><form method="POST" action="{{ route('teacher.materials.destroy',$material) }}" onsubmit="return confirm('Hapus materi ini? Materi tidak akan tampil lagi pada siswa.')">@csrf @method('DELETE')<button class="icon-action danger-action" title="Hapus">×</button></form></div></td></tr>
-    @empty<tr><td colspan="7"><div class="empty-inline">Belum ada materi yang cocok dengan pencarian.</div></td></tr>@endforelse
-    </tbody></table></div>
-    <div class="pagination-row">{{ $materials->links() }}</div>
+
+    <form method="GET" class="filter-bar">
+
+        <input
+            class="form-control search-control"
+            type="search"
+            name="q"
+            value="{{ request('q') }}"
+            placeholder="Cari nama materi, topik, atau kata kunci..."
+        >
+
+        <select class="form-control" name="subject_id">
+            <option value="">Semua Mata Pelajaran</option>
+
+            @foreach($subjects as $subject)
+                <option value="{{ $subject->id }}" @selected(request('subject_id') == $subject->id)>
+                    {{ $subject->name }}
+                </option>
+            @endforeach
+        </select>
+
+        <select class="form-control" name="status">
+            <option value="">Semua Status</option>
+            <option value="published" @selected(request('status') === 'published')>Dipublikasikan</option>
+            <option value="draft" @selected(request('status') === 'draft')>Draft</option>
+        </select>
+
+        <button class="btn btn-secondary" type="submit">
+            <x-icon name="filter" size="16" class="button-icon" />
+            Filter
+        </button>
+
+    </form>
+
+    <div class="panel-heading table-title">
+        <div>
+            <h2>Daftar Materi</h2>
+            <p>{{ $materials->total() }} materi terdaftar · Pengajar dapat mengelola semua mata pelajaran</p>
+        </div>
+    </div>
+
+    <div class="table-wrap">
+
+        <table class="data-table">
+
+            <thead>
+                <tr>
+                    <th>Nama Materi</th>
+                    <th>Mata Pelajaran</th>
+                    <th>Jenjang/Kelas</th>
+                    <th>Kategori</th>
+                    <th>Dibuat Oleh</th>
+                    <th>Status</th>
+                    <th>Aksi</th>
+                </tr>
+            </thead>
+
+            <tbody>
+
+                @forelse($materials as $material)
+
+                    <tr>
+
+                        <td>
+                            <div class="table-primary">{{ $material->title }}</div>
+                            <small class="muted-text">
+                                {{ $material->files->count() }} lampiran · {{ $material->created_at->format('d M Y') }}
+                            </small>
+                        </td>
+
+                        <td>{{ $material->subject?->name }}</td>
+                        <td>{{ $material->education_level ?: '–' }}</td>
+                        <td>{{ $material->category ?: 'Materi Pembelajaran' }}</td>
+                        <td>{{ $material->createdBy?->name }}</td>
+
+                        <td>
+                            <span class="status-pill {{ $material->status === 'published' ? 'status-completed' : 'status-scheduled' }}">
+                                {{ $material->status === 'published' ? 'Dipublikasikan' : 'Draft' }}
+                            </span>
+                        </td>
+
+                        <td>
+                            <div class="table-actions">
+
+                                <a
+                                    class="icon-action"
+                                    title="Edit"
+                                    aria-label="Edit materi"
+                                    href="{{ route('teacher.materials.edit', $material) }}"
+                                >
+                                    <x-icon name="pencil" size="16" />
+                                </a>
+
+                                <form
+                                    method="POST"
+                                    action="{{ route('teacher.materials.destroy', $material) }}"
+                                    onsubmit="return confirm('Hapus materi ini? Materi tidak akan tampil lagi pada siswa.')"
+                                >
+                                    @csrf
+                                    @method('DELETE')
+
+                                    <button
+                                        class="icon-action danger-action"
+                                        title="Hapus"
+                                        aria-label="Hapus materi"
+                                        type="submit"
+                                    >
+                                        <x-icon name="trash" size="16" />
+                                    </button>
+                                </form>
+
+                            </div>
+                        </td>
+
+                    </tr>
+
+                @empty
+
+                    <tr>
+                        <td colspan="7">
+                            <div class="empty-inline">
+                                Belum ada materi yang cocok dengan pencarian.
+                            </div>
+                        </td>
+                    </tr>
+
+                @endforelse
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+    <div class="pagination-row">
+        {{ $materials->links() }}
+    </div>
+
 </section>
+
 @endsection

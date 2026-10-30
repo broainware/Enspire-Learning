@@ -1,0 +1,79 @@
+
+/* Enspire Learning — Reusable SVG Icons */
+
+.ui-icon {
+    display: inline-block;
+    vertical-align: middle;
+    flex-shrink: 0;
+}
+
+.button-icon {
+    margin-right: 5px;
+}
+
+.button-trailing-icon {
+    margin-left: 5px;
+}
+
+.stat-icon .ui-icon {
+    width: 20px;
+    height: 20px;
+}
+
+.icon-action .ui-icon {
+    width: 15px;
+    height: 15px;
+}
+
+.material-card-icon .ui-icon {
+    width: 18px;
+    height: 18px;
+}
+
+.material-card-arrow .ui-icon,
+.mini-arrow .ui-icon {
+    width: 16px;
+    height: 16px;
+}
+
+.compact-file .ui-icon,
+.attachment-item > .ui-icon,
+.attachment-link > span .ui-icon {
+    width: 17px;
+    height: 17px;
+}
+
+.empty-state > span .ui-icon,
+.empty-state > .ui-icon {
+    width: 28px;
+    height: 28px;
+}
+
+.note-icon .ui-icon,
+.heading-quote > span .ui-icon {
+    width: 20px;
+    height: 20px;
+}
+
+.download-label .ui-icon {
+    width: 14px;
+    height: 14px;
+    margin-left: 2px;
+}
+
+.plan-bullet .ui-icon {
+    width: 17px;
+    height: 17px;
+}
+
+.calendar-arrows {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.calendar-arrows .ui-icon {
+    width: 16px;
+    height: 16px;
+    color: #a18f83;
+}
