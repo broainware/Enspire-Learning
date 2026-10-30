@@ -103,3 +103,79 @@
 .password-icon-toggle svg {
     flex-shrink: 0;
 }
+
+/* =========================================
+   ENSPIRE LEARNING - SIDEBAR ICON SYSTEM
+========================================= */
+
+/* Semua ikon sidebar */
+.side-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 22px;
+    min-width: 22px;
+    height: 22px;
+    color: #8F8178;
+    flex-shrink: 0;
+    transition: color 0.2s ease, transform 0.2s ease;
+}
+
+/* Ukuran dan bentuk ikon SVG */
+.side-icon-svg {
+    display: block;
+    width: 20px;
+    height: 20px;
+    flex-shrink: 0;
+}
+
+/* Ikon menu aktif */
+.side-link.active .side-icon {
+    color: #F36D32;
+}
+
+/* Hover ikon */
+.side-link:hover .side-icon {
+    color: #F36D32;
+}
+
+/* Ikon sparkle sidebar */
+.note-spark {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.note-spark svg {
+    width: 21px;
+    height: 21px;
+}
+
+/* Ikon pencarian */
+.top-search-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.top-search-icon svg {
+    display: block;
+}
+
+/* Ikon hamburger */
+.mobile-menu svg {
+    display: block;
+}
+
+/* Ikon dropdown profil */
+.chevron {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.chevron svg {
+    display: block;
+    transition: transform 0.2s ease;
+}
