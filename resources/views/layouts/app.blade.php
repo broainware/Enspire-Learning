@@ -1,11 +1,11 @@
-
 <!DOCTYPE html>
 <html lang="id">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <link rel="icon" type="image/svg+xml" href="{{ asset('favicon.svg') }}">
+    <link rel="icon" type="image/png" href="{{ asset('images/enspire-icon.png') }}">
     <title>@yield('title', 'Dashboard') · Enspire Learning</title>
 
     @vite(['resources/css/app.css', 'resources/js/app.js'])
@@ -14,23 +14,23 @@
 <body class="app-body" x-data="{ sidebarOpen: false, profileOpen: false }">
 
     @php
-        $isTeacher = auth()->user()->role === 'teacher';
+    $isTeacher = auth()->user()->role === 'teacher';
 
-        $navItems = $isTeacher ? [
-            ['label' => 'Dashboard', 'route' => 'teacher.dashboard', 'icon' => '▦'],
-            ['label' => 'Jadwal Mengajar', 'route' => 'teacher.sessions.index', 'icon' => '▣'],
-            ['label' => 'Materi', 'route' => 'teacher.materials.index', 'icon' => '▤'],
-            ['label' => 'Siswa', 'route' => 'teacher.students.index', 'icon' => '♧'],
-            ['label' => 'Laporan', 'route' => 'teacher.reports.index', 'icon' => '▥'],
-            ['label' => 'Profil', 'route' => 'teacher.profile.edit', 'icon' => '◉'],
-        ] : [
-            ['label' => 'Dashboard', 'route' => 'student.dashboard', 'icon' => '▦'],
-            ['label' => 'Materi', 'route' => 'student.materials.index', 'icon' => '▤'],
-            ['label' => 'Jadwal', 'route' => 'student.schedules.index', 'icon' => '▣'],
-            ['label' => 'Rencana Belajar', 'route' => 'student.plans.index', 'icon' => '◇'],
-            ['label' => 'Progress', 'route' => 'student.progress.index', 'icon' => '◷'],
-            ['label' => 'Profil', 'route' => 'student.profile.edit', 'icon' => '◉'],
-        ];
+    $navItems = $isTeacher ? [
+    ['label' => 'Dashboard', 'route' => 'teacher.dashboard', 'icon' => '▦'],
+    ['label' => 'Jadwal Mengajar', 'route' => 'teacher.sessions.index', 'icon' => '▣'],
+    ['label' => 'Materi', 'route' => 'teacher.materials.index', 'icon' => '▤'],
+    ['label' => 'Siswa', 'route' => 'teacher.students.index', 'icon' => '♧'],
+    ['label' => 'Laporan', 'route' => 'teacher.reports.index', 'icon' => '▥'],
+    ['label' => 'Profil', 'route' => 'teacher.profile.edit', 'icon' => '◉'],
+    ] : [
+    ['label' => 'Dashboard', 'route' => 'student.dashboard', 'icon' => '▦'],
+    ['label' => 'Materi', 'route' => 'student.materials.index', 'icon' => '▤'],
+    ['label' => 'Jadwal', 'route' => 'student.schedules.index', 'icon' => '▣'],
+    ['label' => 'Rencana Belajar', 'route' => 'student.plans.index', 'icon' => '◇'],
+    ['label' => 'Progress', 'route' => 'student.progress.index', 'icon' => '◷'],
+    ['label' => 'Profil', 'route' => 'student.profile.edit', 'icon' => '◉'],
+    ];
     @endphp
 
     <div class="app-shell">
@@ -44,8 +44,7 @@
                     src="{{ asset('images/enspire-icon.png') }}"
                     alt="Logo Enspire Learning"
                     class="brand-image"
-                    style="width: 58px; height: 58px; object-fit: contain; flex-shrink: 0;"
-                >
+                    style="width: 58px; height: 58px; object-fit: contain; flex-shrink: 0;">
 
                 <span>
                     <strong>Enspire Learning</strong>
@@ -57,13 +56,12 @@
 
             <nav class="side-nav">
                 @foreach ($navItems as $item)
-                    <a
-                        href="{{ route($item['route']) }}"
-                        class="side-link {{ request()->routeIs($item['route']) || (str_starts_with($item['route'], 'teacher.') && request()->routeIs('teacher.'.explode('.', $item['route'])[1].'.*')) || (str_starts_with($item['route'], 'student.') && request()->routeIs('student.'.explode('.', $item['route'])[1].'.*')) ? 'active' : '' }}"
-                    >
-                        <span class="side-icon">{{ $item['icon'] }}</span>
-                        <span>{{ $item['label'] }}</span>
-                    </a>
+                <a
+                    href="{{ route($item['route']) }}"
+                    class="side-link {{ request()->routeIs($item['route']) || (str_starts_with($item['route'], 'teacher.') && request()->routeIs('teacher.'.explode('.', $item['route'])[1].'.*')) || (str_starts_with($item['route'], 'student.') && request()->routeIs('student.'.explode('.', $item['route'])[1].'.*')) ? 'active' : '' }}">
+                    <span class="side-icon">{{ $item['icon'] }}</span>
+                    <span>{{ $item['label'] }}</span>
+                </a>
                 @endforeach
             </nav>
 
@@ -90,8 +88,7 @@
                     class="mobile-menu"
                     type="button"
                     @click="sidebarOpen = !sidebarOpen"
-                    aria-label="Buka menu"
-                >
+                    aria-label="Buka menu">
                     ☰
                 </button>
 
@@ -100,8 +97,7 @@
                     <input
                         type="search"
                         placeholder="Cari materi, mata pelajaran, atau topik..."
-                        aria-label="Cari"
-                    >
+                        aria-label="Cari">
                 </div>
 
                 <div class="topbar-right">
@@ -115,10 +111,16 @@
                         <button
                             class="profile-trigger"
                             @click="profileOpen = !profileOpen"
-                            type="button"
-                        >
+                            type="button">
                             <span class="avatar">
+                                @if (auth()->user()->photo_path)
+                                <img
+                                    src="{{ asset('storage/' . auth()->user()->photo_path) }}"
+                                    alt="Foto Profil"
+                                    style="width: 100%; height: 100%; object-fit: cover;">
+                                @else
                                 {{ strtoupper(substr(auth()->user()->name, 0, 1)) }}
+                                @endif
                             </span>
 
                             <span class="profile-trigger-text">
@@ -133,8 +135,7 @@
                             class="profile-dropdown"
                             x-show="profileOpen"
                             x-transition
-                            x-cloak
-                        >
+                            x-cloak>
                             <a href="{{ route($isTeacher ? 'teacher.profile.edit' : 'student.profile.edit') }}">
                                 Pengaturan profil
                             </a>
@@ -153,26 +154,26 @@
             <main class="page-content">
 
                 @if (session('success'))
-                    <div class="alert alert-success">
-                        ✓ {{ session('success') }}
-                    </div>
+                <div class="alert alert-success">
+                    ✓ {{ session('success') }}
+                </div>
                 @endif
 
                 @if (session('error'))
-                    <div class="alert alert-error">
-                        {{ session('error') }}
-                    </div>
+                <div class="alert alert-error">
+                    {{ session('error') }}
+                </div>
                 @endif
 
                 @if ($errors->any())
-                    <div class="alert alert-error">
-                        <strong>Periksa kembali data yang dimasukkan.</strong>
-                        <ul>
-                            @foreach ($errors->all() as $error)
-                                <li>{{ $error }}</li>
-                            @endforeach
-                        </ul>
-                    </div>
+                <div class="alert alert-error">
+                    <strong>Periksa kembali data yang dimasukkan.</strong>
+                    <ul>
+                        @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
                 @endif
 
                 @yield('content')
@@ -193,10 +194,10 @@
         x-show="sidebarOpen"
         x-transition.opacity
         @click="sidebarOpen = false"
-        x-cloak
-    ></div>
+        x-cloak></div>
 
     @stack('scripts')
 
 </body>
+
 </html>
