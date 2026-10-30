@@ -1,3 +1,4 @@
+
 <?php
 
 use App\Http\Middleware\RoleMiddleware;
@@ -13,12 +14,22 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware): void {
+
+        // Konfigurasi role pengguna.
         $middleware->alias([
             'role' => RoleMiddleware::class,
         ]);
+
+        // Mempercayai reverse proxy dari hosting.
+        $middleware->trustProxies(at: '*');
+
     })
     ->withExceptions(function (Exceptions $exceptions): void {
+
+        // Konfigurasi respons JSON.
         $exceptions->shouldRenderJsonWhen(
             fn (Request $request) => $request->is('api/*') || $request->expectsJson(),
         );
-    })->create();
+
+    })
+    ->create();
