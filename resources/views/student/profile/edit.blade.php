@@ -17,7 +17,9 @@
 
     {{-- INFORMASI PROFIL --}}
     <div class="profile-hero">
+
         <div class="profile-avatar">
+
             @if($user->photo_path)
                 <img
                     src="{{ asset('storage/'.$user->photo_path) }}"
@@ -26,6 +28,7 @@
             @else
                 {{ strtoupper(substr($user->name, 0, 1)) }}
             @endif
+
         </div>
 
         <div>
@@ -33,6 +36,7 @@
             <p>{{ $user->email }}</p>
             <span class="status-pill status-completed">Siswa</span>
         </div>
+
     </div>
 
     {{-- FORM EDIT PROFIL --}}
@@ -42,12 +46,14 @@
         enctype="multipart/form-data"
         class="form-grid profile-form"
     >
+
         @csrf
         @method('PUT')
 
         {{-- NAMA LENGKAP --}}
         <div class="field-group">
             <label>Nama Lengkap <b>*</b></label>
+
             <input
                 class="form-control"
                 type="text"
@@ -57,17 +63,19 @@
             >
         </div>
 
-        {{-- EMAIL (TIDAK DAPAT DIUBAH) --}}
+        {{-- EMAIL READONLY --}}
         <div class="field-group">
             <label>Email</label>
+
             <input
                 class="form-control"
                 type="email"
                 value="{{ $user->email }}"
                 readonly
                 aria-readonly="true"
-                style="background: #f8f5f2; color: #a18a7e; cursor: not-allowed;"
+                style="background:#f8f5f2;color:#a18a7e;cursor:not-allowed;"
             >
+
             <small class="form-help">
                 Email merupakan identitas akun dan tidak dapat diubah melalui profil.
             </small>
@@ -76,6 +84,7 @@
         {{-- NOMOR TELEPON --}}
         <div class="field-group">
             <label>Nomor Telepon</label>
+
             <input
                 class="form-control"
                 type="text"
@@ -88,12 +97,14 @@
         {{-- FOTO PROFIL --}}
         <div class="field-group">
             <label>Foto Profil</label>
+
             <input
                 class="form-control file-control"
                 type="file"
                 name="photo"
                 accept="image/jpeg,image/png,image/webp"
             >
+
             <small class="form-help">
                 JPG/PNG/WEBP, maksimal 2 MB.
             </small>
@@ -101,30 +112,41 @@
 
         {{-- MATA PELAJARAN --}}
         <div class="field-group field-span-2">
+
             <label>Mata Pelajaran Terdaftar</label>
 
             <div class="tag-list">
+
                 @forelse($user->subjects as $subject)
+
                     <span class="subject-tag">
                         {{ $subject->name }}
                     </span>
+
                 @empty
+
                     <span class="muted-text">
                         Belum ada mata pelajaran terhubung.
                     </span>
+
                 @endforelse
+
             </div>
 
             <small class="form-help">
                 Mata pelajaran dikelola oleh pengajar, bukan dari profil siswa.
             </small>
+
         </div>
 
-        {{-- TOMBOL SIMPAN --}}
+        {{-- SIMPAN --}}
         <div class="field-span-2 form-actions">
+
             <button class="btn btn-primary" type="submit">
-                Simpan Perubahan →
+                Simpan Perubahan
+                <x-icon name="arrow-right" size="16" class="button-trailing-icon" />
             </button>
+
         </div>
 
     </form>

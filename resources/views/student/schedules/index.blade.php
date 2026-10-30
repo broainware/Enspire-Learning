@@ -1,7 +1,100 @@
+
 @extends('layouts.app')
+
 @section('title', 'Jadwal Belajar')
+
 @section('content')
-<div class="page-heading"><div><p class="eyebrow">AGENDA PEMBELAJARAN</p><h1>Jadwal Belajar</h1><p>Lihat jadwal kelas sesuai mata pelajaran yang terhubung ke akunmu.</p></div></div>
-<section class="panel"><form method="GET" class="filter-bar"><select name="month" class="form-control"><option value="">Semua Bulan</option>@foreach(range(1,12) as $m)<option value="{{ $m }}" @selected(request('month')==$m)>{{ \Carbon\Carbon::create()->month($m)->translatedFormat('F') }}</option>@endforeach</select><button class="btn btn-secondary">Tampilkan</button></form>
-<div class="schedule-list">@forelse($sessions as $session)<article class="schedule-item"><div class="schedule-date"><strong>{{ $session->session_date->format('d') }}</strong><span>{{ $session->session_date->translatedFormat('M Y') }}</span></div><div class="schedule-details"><span class="eyebrow">{{ $session->subject?->name }}</span><h3>{{ $session->material?->title ?? 'Sesi '.$session->subject?->name }}</h3><p>{{ $session->classRoom?->name ?? 'Kelas' }} · Pengajar: {{ $session->teacher?->name }}</p><small>{{ substr($session->start_time,0,5) }} – {{ substr($session->end_time,0,5) }} WIB</small>@if($session->notes)<p class="schedule-notes">{{ $session->notes }}</p>@endif</div><span class="status-pill status-{{ $session->status }}">{{ $session->display_status }}</span></article>@empty<div class="empty-state"><span>▣</span><strong>Belum ada jadwal belajar</strong><p>Jadwal dari pengajar akan tampil di halaman ini.</p></div>@endforelse</div><div class="pagination-row">{{ $sessions->links() }}</div></section>
+
+<div class="page-heading">
+    <div>
+        <p class="eyebrow">AGENDA PEMBELAJARAN</p>
+        <h1>Jadwal Belajar</h1>
+        <p>Lihat jadwal kelas sesuai mata pelajaran yang terhubung ke akunmu.</p>
+    </div>
+</div>
+
+<section class="panel">
+
+    <form method="GET" class="filter-bar">
+
+        <select name="month" class="form-control">
+            <option value="">Semua Bulan</option>
+
+            @foreach(range(1, 12) as $m)
+                <option value="{{ $m }}" @selected(request('month') == $m)>
+                    {{ \Carbon\Carbon::create()->month($m)->translatedFormat('F') }}
+                </option>
+            @endforeach
+
+        </select>
+
+        <button class="btn btn-secondary" type="submit">
+            <x-icon name="filter" size="16" class="button-icon" />
+            Tampilkan
+        </button>
+
+    </form>
+
+    <div class="schedule-list">
+
+        @forelse($sessions as $session)
+
+            <article class="schedule-item">
+
+                <div class="schedule-date">
+                    <strong>{{ $session->session_date->format('d') }}</strong>
+                    <span>{{ $session->session_date->translatedFormat('M Y') }}</span>
+                </div>
+
+                <div class="schedule-details">
+
+                    <span class="eyebrow">
+                        {{ $session->subject?->name }}
+                    </span>
+
+                    <h3>
+                        {{ $session->material?->title ?? 'Sesi '.$session->subject?->name }}
+                    </h3>
+
+                    <p>
+                        {{ $session->classRoom?->name ?? 'Kelas' }}
+                        · Pengajar: {{ $session->teacher?->name }}
+                    </p>
+
+                    <small>
+                        {{ substr($session->start_time, 0, 5) }}
+                        –
+                        {{ substr($session->end_time, 0, 5) }} WIB
+                    </small>
+
+                    @if($session->notes)
+                        <p class="schedule-notes">{{ $session->notes }}</p>
+                    @endif
+
+                </div>
+
+                <span class="status-pill status-{{ $session->status }}">
+                    {{ $session->display_status }}
+                </span>
+
+            </article>
+
+        @empty
+
+            <div class="empty-state">
+                <span><x-icon name="calendar" size="28" /></span>
+                <strong>Belum ada jadwal belajar</strong>
+                <p>Jadwal dari pengajar akan tampil di halaman ini.</p>
+            </div>
+
+        @endforelse
+
+    </div>
+
+    <div class="pagination-row">
+        {{ $sessions->links() }}
+    </div>
+
+</section>
+
 @endsection

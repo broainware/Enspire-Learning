@@ -7,6 +7,8 @@
 
 @php
     $icons = [
+        'search' => '<circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/>',
+        'filter' => '<path d="M4 7h16M7 12h10M10 17h4"/>',
         'plus' => '<path d="M12 5v14"/><path d="M5 12h14"/>',
         'arrow-left' => '<path d="m12 19-7-7 7-7"/><path d="M19 12H5"/>',
         'arrow-right' => '<path d="M5 12h14"/><path d="m12 5 7 7-7 7"/>',
