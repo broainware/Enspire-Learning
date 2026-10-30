@@ -8,9 +8,6 @@ use Illuminate\Support\Facades\Storage;
 
 class ProfileController extends Controller
 {
-    /**
-     * Menampilkan halaman profil pengajar.
-     */
     public function edit(Request $request)
     {
         return view('teacher.profile.edit', [
@@ -18,15 +15,10 @@ class ProfileController extends Controller
         ]);
     }
 
-    /**
-     * Memperbarui profil pengajar.
-     */
     public function update(Request $request)
     {
         $user = $request->user();
 
-        // Validasi hanya data yang boleh diperbarui.
-        // Email tidak disertakan karena tidak boleh diubah.
         $data = $request->validate([
             'name' => ['required', 'string', 'max:120'],
             'phone' => ['nullable', 'string', 'max:30'],
@@ -38,28 +30,35 @@ class ProfileController extends Controller
             ],
         ]);
 
-        // Upload foto profil baru jika tersedia.
-        if ($request->hasFile('photo')) {
+        $oldPhotoPath = $user->photo_path;
+        $newPhotoPath = null;
 
+        // Upload foto baru.
+        if ($request->hasFile('photo')) {
             $newPhotoPath = $request->file('photo')
                 ->store('profile-photos', 'public');
 
-            if ($newPhotoPath) {
-
-                // Hapus foto lama setelah foto baru berhasil disimpan.
-                if ($user->photo_path) {
-                    Storage::disk('public')->delete($user->photo_path);
-                }
-
-                $data['photo_path'] = $newPhotoPath;
+            if (!$newPhotoPath) {
+                return back()
+                    ->withErrors(['photo' => 'Foto gagal diunggah.'])
+                    ->withInput();
             }
         }
 
-        // Hapus field photo karena kolom database bernama photo_path.
-        unset($data['photo']);
+        // Simpan data profil.
+        $user->name = $data['name'];
+        $user->phone = $data['phone'] ?? null;
 
-        // Simpan perubahan tanpa mengubah email.
-        $user->update($data);
+        if ($newPhotoPath) {
+            $user->photo_path = $newPhotoPath;
+        }
+
+        $user->save();
+
+        // Hapus foto lama setelah foto baru berhasil tersimpan.
+        if ($newPhotoPath && $oldPhotoPath) {
+            Storage::disk('public')->delete($oldPhotoPath);
+        }
 
         return back()->with(
             'success',
