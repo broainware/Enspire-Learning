@@ -5,3 +5,78 @@
 @media(max-width:1180px){.page-content{padding:25px 24px}.topbar{padding:0 24px}.stat-grid-four{grid-template-columns:repeat(2,minmax(0,1fr))}.student-material-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.dashboard-grid{grid-template-columns:minmax(0,1.5fr) minmax(230px,.85fr)}}
 @media(max-width:900px){.sidebar{transform:translateX(-100%);transition:transform .22s ease}.sidebar.sidebar-open{transform:translateX(0)}.main-area{margin-left:0}.mobile-menu{display:block}.mobile-overlay{display:block;position:fixed;inset:0;background:rgba(38,27,20,.25);z-index:20}.topbar{height:68px;padding:0 18px}.top-search{width:min(380px,48vw)}.topbar-date{display:none}.dashboard-grid,.report-grid{grid-template-columns:1fr}.panel-wide,.panel-side,.panel-full{grid-column:1}.login-shell{grid-template-columns:1fr}.login-visual{min-height:380px}.login-copy{margin-top:60px}.login-illustration{height:150px}.login-panel{padding:45px 24px}}
 @media(max-width:620px){.page-content{padding:21px 14px}.topbar{padding:0 13px;gap:8px}.top-search{flex:1;width:auto}.profile-trigger-text,.chevron{display:none}.profile-trigger{padding:0}.avatar{width:33px;height:33px}.page-heading{align-items:flex-start;flex-direction:column}.page-heading h1{font-size:22px}.heading-quote{width:100%}.heading-actions{width:100%}.heading-actions .btn{flex:1}.stat-grid-four,.stat-grid-three{grid-template-columns:1fr 1fr;gap:9px}.stat-card{padding:12px 10px;gap:8px}.stat-icon{width:34px;height:34px;flex-basis:34px}.stat-card strong{font-size:20px}.stat-card span{font-size:9px}.stat-card small{font-size:8px}.dashboard-grid{gap:11px}.panel{padding:15px}.panel-heading{align-items:flex-start}.filter-bar{align-items:stretch}.filter-bar .form-control,.filter-bar .search-control{width:100%;min-width:0;flex:1 1 100%}.filter-bar .btn{width:100%}.form-grid{grid-template-columns:1fr}.field-span-2{grid-column:auto}.form-actions{grid-column:auto}.material-card-grid,.student-material-grid{grid-template-columns:1fr}.progress-overview{align-items:flex-start;flex-wrap:wrap}.progress-overview-copy{min-width:calc(100% - 130px)}.progress-mini-stats{border-left:0;border-top:1px solid var(--line);padding:12px 0 0;width:100%;justify-content:space-around}.plan-item{align-items:flex-start;flex-wrap:wrap}.plan-controls{width:100%;justify-content:flex-end}.schedule-item{align-items:flex-start;flex-wrap:wrap}.schedule-item>.status-pill{margin-left:72px}.login-visual{padding:25px 23px;min-height:360px}.login-copy h1{font-size:35px}.login-illustration{height:130px}.login-panel{padding:38px 20px}.pagination-row nav{justify-content:center}.progress-update-form{align-items:flex-start;flex-direction:column}.progress-update-form .form-control{width:130px}.report-filter .period-caption{width:100%;margin:0}.app-footer{padding:0 15px 15px}}
+
+/* ==========================================
+   ENSPIRE LEARNING - LOGIN BRANDING
+========================================== */
+
+/* Logo dan nama brand di kiri atas */
+.login-brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    width: fit-content;
+    text-decoration: none;
+    position: relative;
+    z-index: 2;
+}
+
+/* Ukuran logo kiri atas */
+.login-brand-image {
+    display: block;
+    width: 46px !important;
+    height: 46px !important;
+    min-width: 46px;
+    max-width: 46px !important;
+    max-height: 46px !important;
+    object-fit: contain;
+    flex-shrink: 0;
+}
+
+/* Tulisan brand */
+.login-brand-text {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+}
+
+.login-brand-text strong {
+    font-size: 16px;
+    font-weight: 700;
+    color: #39291f;
+}
+
+.login-brand-text small {
+    font-size: 11px;
+    color: #a18a7e;
+}
+
+/* Kotak ikon di atas form login */
+.login-welcome-icon {
+    width: 54px;
+    height: 54px;
+    margin: 0 auto 16px;
+    border-radius: 18px;
+    background: #fff0e7;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+/* Ukuran logo pada welcome login */
+.login-welcome-image {
+    display: block;
+    width: 34px !important;
+    height: 34px !important;
+    max-width: 34px !important;
+    max-height: 34px !important;
+    object-fit: contain;
+    flex-shrink: 0;
+}
+
+/* Menjaga bagian brand tidak tertutup ilustrasi */
+.login-copy {
+    position: relative;
+    z-index: 1;
+}
