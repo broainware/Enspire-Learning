@@ -80,3 +80,26 @@
     position: relative;
     z-index: 1;
 }
+
+/* Ikon mata pada input password */
+.password-icon-toggle {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 42px;
+    height: 42px;
+    padding: 0;
+    border: none;
+    background: transparent;
+    color: #a18a7e;
+    cursor: pointer;
+    transition: color 0.2s ease;
+}
+
+.password-icon-toggle:hover {
+    color: #f36d32;
+}
+
+.password-icon-toggle svg {
+    flex-shrink: 0;
+}
