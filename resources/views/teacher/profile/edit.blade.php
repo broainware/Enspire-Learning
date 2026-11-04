@@ -18,11 +18,29 @@
     <div class="profile-hero">
 
         <div class="profile-avatar">
+
             @if($user->photo_path)
-                <img src="{{ asset('storage/'.$user->photo_path) }}" alt="Foto profil">
+
+                @php
+                    $photoUrl = preg_match(
+                        '/^https?:\/\//i',
+                        $user->photo_path
+                    )
+                        ? $user->photo_path
+                        : asset('storage/' . $user->photo_path);
+                @endphp
+
+                <img
+                    src="{{ $photoUrl }}"
+                    alt="Foto profil {{ $user->name }}"
+                >
+
             @else
+
                 {{ strtoupper(substr($user->name, 0, 1)) }}
+
             @endif
+
         </div>
 
         <div>
@@ -130,3 +148,4 @@
 </section>
 
 @endsection
+

@@ -4,7 +4,8 @@ namespace App\Http\Controllers\Student;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Log;
+use Cloudinary\Cloudinary;
 
 class ProfileController extends Controller
 {
@@ -25,8 +26,7 @@ class ProfileController extends Controller
     {
         $user = $request->user();
 
-        // Validasi hanya data yang boleh diedit.
-        // Email tidak dapat diubah melalui halaman profil.
+        // Validasi data profil.
         $data = $request->validate([
             'name' => ['required', 'string', 'max:120'],
             'phone' => ['nullable', 'string', 'max:30'],
@@ -38,28 +38,57 @@ class ProfileController extends Controller
             ],
         ]);
 
-        // Proses upload foto profil.
+        $photoUrl = null;
+
+        // Upload foto ke Cloudinary.
         if ($request->hasFile('photo')) {
 
-            $newPhotoPath = $request->file('photo')
-                ->store('profile-photos', 'public');
+            try {
+                $cloudinary = new Cloudinary();
 
-            // Foto lama dihapus setelah foto baru berhasil disimpan.
-            if ($newPhotoPath) {
+                $result = $cloudinary->uploadApi()->upload(
+                    $request->file('photo')->getRealPath(),
+                    [
+                        'folder' => 'enspire-learning/profile-photos/students',
+                        'public_id' => 'student-' . $user->id,
+                        'overwrite' => true,
+                        'resource_type' => 'image',
+                    ]
+                );
 
-                if ($user->photo_path) {
-                    Storage::disk('public')->delete($user->photo_path);
+                $photoUrl = $result['secure_url'] ?? null;
+
+                if (!$photoUrl) {
+                    throw new \RuntimeException(
+                        'Cloudinary tidak mengembalikan URL foto.'
+                    );
                 }
 
-                $data['photo_path'] = $newPhotoPath;
+            } catch (\Throwable $e) {
+
+                Log::error('Cloudinary student profile upload failed', [
+                    'user_id' => $user->id,
+                    'error' => $e->getMessage(),
+                ]);
+
+                return back()
+                    ->withErrors([
+                        'photo' => 'Foto gagal diunggah. Periksa konfigurasi Cloudinary.'
+                    ])
+                    ->withInput();
             }
         }
 
-        // Hapus field photo karena nama kolom database adalah photo_path.
-        unset($data['photo']);
+        // Simpan informasi profil.
+        $user->name = $data['name'];
+        $user->phone = $data['phone'] ?? null;
 
-        // Simpan perubahan profil tanpa mengubah email.
-        $user->update($data);
+        // Simpan URL Cloudinary jika ada foto baru.
+        if ($photoUrl) {
+            $user->photo_path = $photoUrl;
+        }
+
+        $user->save();
 
         return back()->with(
             'success',
