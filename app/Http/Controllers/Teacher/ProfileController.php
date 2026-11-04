@@ -33,6 +33,7 @@ class ProfileController extends Controller
 
         $photoUrl = null;
 
+        // Upload foto ke Cloudinary.
         if ($request->hasFile('photo')) {
             try {
                 $cloudinary = new Cloudinary();
@@ -69,9 +70,11 @@ class ProfileController extends Controller
             }
         }
 
+        // Simpan informasi profil.
         $user->name = $data['name'];
         $user->phone = $data['phone'] ?? null;
 
+        // Simpan URL foto baru.
         if ($photoUrl) {
             $user->photo_path = $photoUrl;
         }

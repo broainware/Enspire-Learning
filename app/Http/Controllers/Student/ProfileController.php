@@ -42,7 +42,6 @@ class ProfileController extends Controller
 
         // Upload foto ke Cloudinary.
         if ($request->hasFile('photo')) {
-
             try {
                 $cloudinary = new Cloudinary();
 
@@ -65,7 +64,6 @@ class ProfileController extends Controller
                 }
 
             } catch (\Throwable $e) {
-
                 Log::error('Cloudinary student profile upload failed', [
                     'user_id' => $user->id,
                     'error' => $e->getMessage(),
